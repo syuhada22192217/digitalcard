@@ -7,31 +7,43 @@ interface YouTubeAudioPlayerProps {
 
 export const YouTubeAudioPlayer: React.FC<YouTubeAudioPlayerProps> = ({
   isPlaying,
-  videoUrl = "https://www.youtube.com/embed/IBFWlwnrpdU?autoplay=1&loop=1&playlist=IBFWlwnrpdU&enablejsapi=1&origin=https://ais-dev-qwno6un7vzgriql6mm6qtb-586307610502.asia-east1.run.app"
+  videoUrl = "https://www.youtube.com/embed/IBFWlwnrpdU?enablejsapi=1&loop=1&playlist=IBFWlwnrpdU&origin=" + (typeof window !== 'undefined' ? window.location.origin : '')
 }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const isLoadedRef = useRef(false);
 
   useEffect(() => {
     if (!iframeRef.current || !iframeRef.current.contentWindow) return;
 
     try {
-      const message = isPlaying
-        ? JSON.stringify({ event: 'command', func: 'playVideo', args: '' })
-        : JSON.stringify({ event: 'command', func: 'pauseVideo', args: '' });
-
-      iframeRef.current.contentWindow.postMessage(message, '*');
+      // Send postMessage command to YouTube iframe API
+      const command = isPlaying ? 'playVideo' : 'pauseVideo';
+      iframeRef.current.contentWindow.postMessage(
+        JSON.stringify({ event: 'command', func: command, args: [] }),
+        '*'
+      );
     } catch {
-      // Ignore cross-origin postMessage errors
+      // Ignore cross-origin error
     }
   }, [isPlaying]);
 
   return (
     <div className="sr-only pointer-events-none" aria-hidden="true">
+      {/* Only mount iframe with src when user starts music, or keep clean without autoplay=1 */}
       <iframe
         ref={iframeRef}
-        width="100"
-        height="100"
-        src={videoUrl}
+        width="1"
+        height="1"
+        src={isPlaying || isLoadedRef.current ? videoUrl : undefined}
+        onLoad={() => {
+          isLoadedRef.current = true;
+          if (iframeRef.current && iframeRef.current.contentWindow && isPlaying) {
+            iframeRef.current.contentWindow.postMessage(
+              JSON.stringify({ event: 'command', func: 'playVideo', args: [] }),
+              '*'
+            );
+          }
+        }}
         title="Wedding Background Music"
         allow="autoplay; encrypted-media"
       />
