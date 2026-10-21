@@ -1,7 +1,7 @@
 import React from 'react';
 import { WEDDING_DATA } from '../data/weddingData';
 import coupleWalkingGarden from '../assets/images/pengantin_burgundy_grey_1791902834200.jpg';
-import ringExchangeMirrorBg from '../assets/images/cermin_sarung_cincin_1791903850336.jpg';
+import ringExchangeMirrorBg from '../assets/images/newcermin.jpg';
 import frameTallBurgundy from '../assets/images/frame_tall_burgundy_1792597275647.jpg';
 import frameBurgundyLace from '../assets/images/frame_burgundy_lace_1792597245969.jpg';
 

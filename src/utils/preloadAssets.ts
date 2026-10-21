@@ -4,7 +4,9 @@
  * without any loading delay or pop-in.
  */
 
-import ringExchangeMirrorBg from '../assets/images/cermin_sarung_cincin_1791903850336.jpg';
+import fittedDoorLeft from '../assets/images/fitted_door_left.jpg';
+import fittedDoorRight from '../assets/images/fitted_door_right.jpg';
+import ringExchangeMirrorBg from '../assets/images/newcermin.jpg';
 import frameTallBurgundy from '../assets/images/frame_tall_burgundy_1792597275647.jpg';
 import frameBurgundyLace from '../assets/images/frame_burgundy_lace_1792597245969.jpg';
 import coupleWalkingGarden from '../assets/images/pengantin_burgundy_grey_1791902834200.jpg';
@@ -13,6 +15,8 @@ import masjidBg from '../assets/images/masjid.jpg';
 import anthuriumPetalImg from '../assets/images/anthurium_petal_1792061936557.jpg';
 
 const ASSETS_TO_PRELOAD: string[] = [
+  fittedDoorLeft,
+  fittedDoorRight,
   ringExchangeMirrorBg,
   frameTallBurgundy,
   frameBurgundyLace,
