@@ -13,6 +13,7 @@ import coupleWalkingGarden from '../assets/images/pengantin_burgundy_grey_179190
 import windowTetingkapBg from '../assets/images/tetingkap.jpg';
 import masjidBg from '../assets/images/masjid.jpg';
 import anthuriumPetalImg from '../assets/images/anthurium_petal_1792061936557.jpg';
+import khatGold from '../assets/images/khat_gold.png';
 
 const ASSETS_TO_PRELOAD: string[] = [
   fittedDoorLeft,
@@ -24,6 +25,7 @@ const ASSETS_TO_PRELOAD: string[] = [
   windowTetingkapBg,
   masjidBg,
   anthuriumPetalImg,
+  khatGold,
 ];
 
 export function preloadAllWeddingAssets(): Promise<void[]> {

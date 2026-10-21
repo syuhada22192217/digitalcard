@@ -12,6 +12,7 @@ import { ButterfliesOverlay } from './components/ButterfliesOverlay';
 import { Wish } from './data/weddingData';
 import { weddingAudio } from './utils/audio';
 import { preloadAllWeddingAssets } from './utils/preloadAssets';
+import khatGold from './assets/images/khat_gold.png';
 import { RotateCcw, Heart, Sparkles, Volume2, VolumeX } from 'lucide-react';
 
 export default function App() {
@@ -231,6 +232,7 @@ export default function App() {
 
             {/* Footer Note with Prayer and #AMARriedtoSYU hashtag at the very end */}
             <footer className="py-10 px-4 text-center border-t border-amber-300/20 bg-black/40 text-xs text-stone-300 space-y-3">
+              {/* Amar & Syuhada (seperti dalam screenshot image_0e40e2b4.png) */}
               <div className="flex items-center justify-center gap-1.5 text-amber-300">
                 <Heart className="w-4 h-4 fill-amber-300" />
                 <span className="font-script text-2xl font-bold inline-flex items-baseline">
@@ -238,6 +240,15 @@ export default function App() {
                   <span>mar & Syuhada</span>
                 </span>
                 <Heart className="w-4 h-4 fill-amber-300" />
+              </div>
+
+              {/* Huruf Initial Jawi Khat Amar & Syuhada (Tanpa Background Putih daripada khat.png) */}
+              <div className="flex justify-center my-2.5">
+                <img
+                  src={khatGold}
+                  alt="Huruf Initial Jawi Khat Amar & Syuhada"
+                  className="h-20 sm:h-24 w-auto object-contain filter drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)] hover:scale-105 transition-transform duration-300"
+                />
               </div>
 
               <p className="font-serif text-sm font-semibold text-white">
