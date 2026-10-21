@@ -1,133 +1,115 @@
 /**
- * Wedding Audio Synthesizer & Player Engine
- * Provides authentic, gentle romantic wedding background music (Canon in D / Wedding Melody in Piano & Strings arpeggios)
- * using Web Audio API so it plays on every device without broken MP3 URLs or network issues.
+ * Audio Manager for Wedding MP3 Background Music
+ * Uses HTML5 Audio element with pre-buffering for full cross-device compatibility (iOS, Android, Desktop).
  */
 
 class WeddingAudioManager {
-  private ctx: AudioContext | null = null;
+  private audio: HTMLAudioElement | null = null;
   private isPlaying: boolean = false;
-  private timer: number | null = null;
-  private gainNode: GainNode | null = null;
-  private noteIndex: number = 0;
-  private volume: number = 0.45;
-  private onStateChange: ((isPlaying: boolean) => void) | null = null;
+  private listeners: Set<(playing: boolean) => void> = new Set();
+  private audioSrc: string = '/audio/lagu_pengantin.mp3';
+  private fallbackSrc: string = '/assets/aistudio/_____________b670ebc7.mp3';
 
-  // Romantic wedding progression chords (frequencies in Hz)
-  // Canon in D transposed to C / F romantic acoustic:
-  // C major, G major, A minor, E minor, F major, C major, F major, G major
-  private chords = [
-    // C Major
-    [261.63, 329.63, 392.00, 523.25],
-    // G/B
-    [246.94, 293.66, 392.00, 493.88],
-    // A minor
-    [220.00, 261.63, 329.63, 440.00],
-    // E minor / G
-    [196.00, 246.94, 329.63, 392.00],
-    // F Major
-    [174.61, 220.00, 261.63, 349.23],
-    // C Major / E
-    [164.81, 261.63, 329.63, 523.25],
-    // F Major
-    [174.61, 261.63, 349.23, 440.00],
-    // G Major
-    [196.00, 293.66, 392.00, 587.33],
-  ];
-
-  public init() {
-    if (!this.ctx) {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      this.ctx = new AudioCtx();
-      this.gainNode = this.ctx.createGain();
-      this.gainNode.gain.setValueAtTime(this.volume, this.ctx.currentTime);
-      this.gainNode.connect(this.ctx.destination);
-    }
-    if (this.ctx.state === 'suspended') {
-      this.ctx.resume();
+  constructor() {
+    if (typeof window !== 'undefined') {
+      this.initAudio();
     }
   }
 
-  public setListener(cb: (playing: boolean) => void) {
-    this.onStateChange = cb;
-  }
-
-  public playNote(freq: number, duration: number = 1.2, isBass: boolean = false) {
-    if (!this.ctx || !this.gainNode) return;
+  private initAudio() {
+    if (this.audio) return;
 
     try {
-      const osc = this.ctx.createOscillator();
-      const noteGain = this.ctx.createGain();
+      this.audio = new Audio(this.audioSrc);
+      this.audio.loop = true;
+      this.audio.preload = 'auto';
+      this.audio.volume = 0.85;
 
-      // Warm piano/harp timbre using soft sine + subtle triangle
-      osc.type = isBass ? 'triangle' : 'sine';
-      osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+      // Fallback if primary path fails
+      this.audio.addEventListener('error', () => {
+        if (this.audio && this.audio.src !== this.fallbackSrc) {
+          console.warn('Primary audio failed, switching to fallback path');
+          this.audio.src = this.fallbackSrc;
+          this.audio.load();
+          if (this.isPlaying) {
+            this.audio.play().catch(() => {});
+          }
+        }
+      });
 
-      const now = this.ctx.currentTime;
-      const attack = isBass ? 0.08 : 0.04;
-      const decay = duration * 0.9;
+      this.audio.addEventListener('play', () => {
+        this.isPlaying = true;
+        this.notifyListeners(true);
+      });
 
-      noteGain.gain.setValueAtTime(0.0001, now);
-      noteGain.gain.exponentialRampToValueAtTime(isBass ? 0.22 : 0.16, now + attack);
-      noteGain.gain.exponentialRampToValueAtTime(0.0001, now + attack + decay);
+      this.audio.addEventListener('pause', () => {
+        this.isPlaying = false;
+        this.notifyListeners(false);
+      });
 
-      osc.connect(noteGain);
-      noteGain.connect(this.gainNode);
-
-      osc.start(now);
-      osc.stop(now + attack + decay + 0.1);
-    } catch {
-      // Ignore audio synthesis errors on older environments
+      this.audio.addEventListener('ended', () => {
+        this.isPlaying = false;
+        this.notifyListeners(false);
+      });
+    } catch (e) {
+      console.warn('Audio init error:', e);
     }
   }
 
-  public start() {
-    this.init();
-    if (this.isPlaying) return;
-
-    this.isPlaying = true;
-    if (this.onStateChange) this.onStateChange(true);
-
-    let chordIdx = 0;
-    let step = 0;
-
-    const tick = () => {
-      if (!this.isPlaying || !this.ctx) return;
-
-      const currentChord = this.chords[chordIdx];
-      // Arpeggiate notes
-      if (step === 0) {
-        // Bass root note
-        this.playNote(currentChord[0] / 2, 2.4, true);
-        this.playNote(currentChord[0], 1.8);
-      } else if (step === 1) {
-        this.playNote(currentChord[1], 1.4);
-      } else if (step === 2) {
-        this.playNote(currentChord[2], 1.4);
-      } else if (step === 3) {
-        this.playNote(currentChord[3], 1.6);
-      }
-
-      step++;
-      if (step >= 4) {
-        step = 0;
-        chordIdx = (chordIdx + 1) % this.chords.length;
-      }
-
-      // Schedule next arpeggio beat (approx 68 BPM gentle tempo)
-      this.timer = window.setTimeout(tick, 450);
+  public setListener(cb: (playing: boolean) => void): () => void {
+    this.listeners.add(cb);
+    cb(this.isPlaying);
+    return () => {
+      this.listeners.delete(cb);
     };
+  }
 
-    tick();
+  private notifyListeners(playing: boolean) {
+    this.listeners.forEach((cb) => {
+      try {
+        cb(playing);
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  }
+
+  public async start(): Promise<boolean> {
+    if (!this.audio) {
+      this.initAudio();
+    }
+    if (!this.audio) return false;
+
+    try {
+      await this.audio.play();
+      this.isPlaying = true;
+      this.notifyListeners(true);
+      return true;
+    } catch (err) {
+      console.warn('Playback prevented by browser autoplay policy:', err);
+      // Setup one-time touch listener to resume audio on next user touch
+      const resumeOnTouch = () => {
+        if (this.audio && this.isPlaying) {
+          this.audio.play().catch(() => {});
+        }
+        window.removeEventListener('click', resumeOnTouch);
+        window.removeEventListener('touchstart', resumeOnTouch);
+      };
+      window.addEventListener('click', resumeOnTouch, { once: true });
+      window.addEventListener('touchstart', resumeOnTouch, { once: true });
+      return false;
+    }
   }
 
   public stop() {
-    this.isPlaying = false;
-    if (this.timer) {
-      clearTimeout(this.timer);
-      this.timer = null;
+    if (!this.audio) return;
+    try {
+      this.audio.pause();
+    } catch (err) {
+      console.warn(err);
     }
-    if (this.onStateChange) this.onStateChange(false);
+    this.isPlaying = false;
+    this.notifyListeners(false);
   }
 
   public toggle(): boolean {
@@ -145,14 +127,8 @@ class WeddingAudioManager {
   }
 
   public setVolume(val: number) {
-    this.volume = Math.max(0, Math.min(1, val));
-    if (this.gainNode && this.ctx) {
-      this.gainNode.gain.setValueAtTime(this.volume, this.ctx.currentTime);
-    }
-  }
-
-  public getVolume(): number {
-    return this.volume;
+    if (!this.audio) return;
+    this.audio.volume = Math.max(0, Math.min(1, val));
   }
 }
 

@@ -2,7 +2,8 @@ import React from 'react';
 import { WEDDING_DATA } from '../data/weddingData';
 import coupleWalkingGarden from '../assets/images/pengantin_burgundy_grey_1791902834200.jpg';
 import ringExchangeMirrorBg from '../assets/images/cermin_sarung_cincin_1791903850336.jpg';
-import floralCorner from '../assets/images/bunga_merah_corner_1791894719645.jpg';
+import frameTallBurgundy from '../assets/images/frame_tall_burgundy_1792597275647.jpg';
+import frameBurgundyLace from '../assets/images/frame_burgundy_lace_1792597245969.jpg';
 
 interface BrideGroomSectionProps {
   themeStyle: 'emerald' | 'white';
@@ -15,6 +16,7 @@ export const BrideGroomSection: React.FC<BrideGroomSectionProps> = ({ themeStyle
     <div className={`relative transition-colors duration-500 ${isEmerald ? 'bg-[#3b4728] text-white' : 'bg-[#3b4728] text-white'}`}>
       {/* -------------------------------------------------------------
           1. HEADER MIRROR REVEAL (Menyarung Cincin di Dalam Cermin Emas)
+          Requirement 4: Tulisan "Amar & Syuhada" di dalam screenshot diubah kepada warna putih
          ------------------------------------------------------------- */}
       <div className="relative pt-6 pb-10 px-4 text-center overflow-hidden">
         {/* Background foliage */}
@@ -41,7 +43,7 @@ export const BrideGroomSection: React.FC<BrideGroomSectionProps> = ({ themeStyle
               alt="Cermin Pengantin Menyarung Cincin"
               className="absolute inset-0 w-full h-full object-cover filter brightness-90 contrast-105"
             />
-            <div className="absolute inset-0 bg-black/25 backdrop-blur-[0.5px]" />
+            <div className="absolute inset-0 bg-black/35 backdrop-blur-[0.5px]" />
 
             {/* Top Text inside mirror */}
             <div className="relative z-10 pt-4">
@@ -50,16 +52,16 @@ export const BrideGroomSection: React.FC<BrideGroomSectionProps> = ({ themeStyle
               </span>
             </div>
 
-            {/* Center Names in Dark Red / Maroon (Merah Gelap #7A0C16) */}
+            {/* Center Names in Pure White with deep shadow (Requirement 4: tukarkan kepada tulisan warna putih) */}
             <div className="relative z-10 my-auto py-2">
-              <h1 className="name1 font-script text-5xl sm:text-6xl text-[#7A0C16] drop-shadow-[0_2px_12px_rgba(255,255,255,0.85)] leading-none font-bold inline-flex items-baseline justify-center">
+              <h1 className="name1 font-script text-5xl sm:text-6xl text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] leading-none font-bold inline-flex items-baseline justify-center tracking-wide">
                 <span className="font-pinyon text-6xl sm:text-7xl font-bold -mr-0.5 inline-block transform scale-110">A</span>
                 <span>mar</span>
               </h1>
-              <span className="and font-script text-2xl text-[#7A0C16] my-1 block drop-shadow-[0_1px_6px_rgba(255,255,255,0.85)]">
+              <span className="and font-script text-2xl text-white my-1 block drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] font-bold">
                 &
               </span>
-              <h1 className="name2 font-script text-5xl sm:text-6xl text-[#7A0C16] drop-shadow-[0_2px_12px_rgba(255,255,255,0.85)] leading-none font-bold">
+              <h1 className="name2 font-script text-5xl sm:text-6xl text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] leading-none font-bold tracking-wide">
                 {WEDDING_DATA.bride.shortName}
               </h1>
             </div>
@@ -80,86 +82,135 @@ export const BrideGroomSection: React.FC<BrideGroomSectionProps> = ({ themeStyle
       {/* -------------------------------------------------------------
           2. INVITATION DETAILS BODY (Harmonious Botanical Color Palette)
          ------------------------------------------------------------- */}
-      <div className="relative py-10 px-4 text-center overflow-hidden border-t bg-[#3b4728] border-amber-300/20 text-white">
-        <div className="relative z-20 max-w-md mx-auto space-y-6">
-          {/* Islamic Greeting */}
-          <div className="space-y-2">
-            <p className="text-2xl font-serif-luxury tracking-wide" dir="rtl">
-              بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
-            </p>
-            <p className="text-xs uppercase tracking-[0.2em] font-bold text-amber-300">
-              Undangan Ke Majlis Perkahwinan
-            </p>
-          </div>
+      <div className="relative py-10 px-3 sm:px-4 text-center overflow-hidden border-t bg-[#3b4728] border-amber-300/20 text-white">
+        <div className="relative z-20 max-w-md mx-auto space-y-7">
 
-          {/* KOTAK NAMA IBU BAPA: Berlatarkan warna botani gelap elegan (bebas daripada kotak putih janggal) */}
-          <div className="relative rounded-2xl overflow-hidden border-2 border-amber-300/50 shadow-xl bg-[#2b351e]/90 text-white text-center p-6 backdrop-blur-md">
-            <div className="relative z-10 space-y-3">
-              <div>
-                <p className="parent_name text-base sm:text-lg font-serif font-bold text-amber-100 leading-tight">
+          {/* -------------------------------------------------------------
+              FRAME DESIGN SEPERTI GAMBAR2.JPG UNTUK KOTAK NAMA IBU BAPA
+              (Requirement 1: bahagian kotak nama ibu bapa pengantin lelaki dan ibu bapa pengantin perempuan, letakkan frame design seperti gambar2.jpg)
+             ------------------------------------------------------------- */}
+          <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-amber-300/40 bg-[#360714] text-white">
+            {/* Background artwork: Scalloped burgundy embroidered lace, beads, orchids & butterflies */}
+            <img
+              src={frameTallBurgundy}
+              alt="Bingkai Renda Burgundy Gambar 2"
+              className="absolute inset-0 w-full h-full object-cover filter brightness-[0.98] contrast-105"
+            />
+            {/* Center burgundy overlay to ensure readability */}
+            <div className="absolute inset-0 bg-[#360714]/65 backdrop-blur-[0.5px]" />
+
+            {/* Content inside the frame */}
+            <div className="relative z-10 px-5 py-7 sm:px-8 sm:py-9 space-y-5">
+              {/* Islamic Calligraphy & Bismillah Header as seen in gambar2.jpg */}
+              <div className="space-y-1">
+                <p className="text-2xl sm:text-3xl font-serif-luxury tracking-wide text-amber-100 drop-shadow-md" dir="rtl">
+                  بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+                </p>
+                <p className="text-[11px] uppercase tracking-[0.2em] font-semibold text-amber-200/90 pt-1">
+                  ASSALAMUALAIKUM W.B.T.
+                </p>
+                <p className="text-[10px] uppercase tracking-[0.18em] font-medium text-stone-200/90">
+                  DENGAN NAMA ALLAH YANG MAHA PEMURAH & MAHA PENYAYANG
+                </p>
+              </div>
+
+              {/* Decorative separator */}
+              <div className="flex items-center justify-center gap-2 max-w-[180px] mx-auto opacity-70">
+                <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-amber-300 to-transparent" />
+                <span className="text-amber-300 text-xs">❦</span>
+                <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-amber-300 to-transparent" />
+              </div>
+
+              {/* Ibu Bapa Pengantin Lelaki */}
+              <div className="space-y-1">
+                <p className="parent_name text-base sm:text-lg font-serif font-bold text-white tracking-wide uppercase leading-snug drop-shadow-sm">
                   {WEDDING_DATA.groom.father}
                 </p>
-                <p className="text-xs font-serif text-amber-300/80 font-bold my-0.5">&</p>
-                <p className="parent_name text-base sm:text-lg font-serif font-bold text-amber-100 leading-tight">
+                <p className="text-xs font-serif text-amber-300 font-bold">&</p>
+                <p className="parent_name text-base sm:text-lg font-serif font-bold text-white tracking-wide uppercase leading-snug drop-shadow-sm">
                   {WEDDING_DATA.groom.mother}
                 </p>
-                <span className="inline-block mt-1 text-[10px] uppercase tracking-wider font-semibold bg-black/30 text-amber-200 px-2.5 py-0.5 rounded-full border border-amber-300/30">
+                <span className="inline-block mt-1 text-[10px] uppercase tracking-wider font-semibold text-amber-200/90 bg-black/40 px-3 py-0.5 rounded-full border border-amber-300/30">
                   Ibu Bapa Pengantin Lelaki
                 </span>
               </div>
 
-              <p className="font-script text-2xl text-amber-300 font-bold my-1">
+              {/* Bersama divider */}
+              <p className="font-script text-2xl text-amber-300 font-bold my-1 drop-shadow-sm">
                 bersama
               </p>
 
-              <div>
-                <p className="parent_name text-base sm:text-lg font-serif font-bold text-amber-100 leading-tight">
+              {/* Ibu Bapa Pengantin Perempuan */}
+              <div className="space-y-1">
+                <p className="parent_name text-base sm:text-lg font-serif font-bold text-white tracking-wide uppercase leading-snug drop-shadow-sm">
                   {WEDDING_DATA.bride.father}
                 </p>
-                <p className="text-xs font-serif text-amber-300/80 font-bold my-0.5">&</p>
-                <p className="parent_name text-base sm:text-lg font-serif font-bold text-amber-100 leading-tight">
+                <p className="text-xs font-serif text-amber-300 font-bold">&</p>
+                <p className="parent_name text-base sm:text-lg font-serif font-bold text-white tracking-wide uppercase leading-snug drop-shadow-sm">
                   {WEDDING_DATA.bride.mother}
                 </p>
-                <span className="inline-block mt-1 text-[10px] uppercase tracking-wider font-semibold bg-black/30 text-amber-200 px-2.5 py-0.5 rounded-full border border-amber-300/30">
+                <span className="inline-block mt-1 text-[10px] uppercase tracking-wider font-semibold text-amber-200/90 bg-black/40 px-3 py-0.5 rounded-full border border-amber-300/30">
                   Ibu Bapa Pengantin Perempuan
                 </span>
+              </div>
+
+              {/* Invitation Prose (seperti di gambar2.jpg) */}
+              <div className="pt-2 border-t border-amber-300/20 text-center space-y-1">
+                <p className="text-[11px] sm:text-xs tracking-wider uppercase text-amber-200/90 font-medium">
+                  Dengan Penuh Takzim Ingin Menjemput
+                </p>
+                <p className="text-xs sm:text-sm font-serif font-bold text-white tracking-widest uppercase">
+                  DATO' / DATIN / TUAN / PUAN / ENCIK / CIK
+                </p>
+                <p className="text-[11px] text-stone-200">
+                  ke majlis perkahwinan puteri & putera kami
+                </p>
               </div>
             </div>
           </div>
 
-          {/* Invitation Prose */}
-          <div className="py-2 space-y-1 font-serif text-sm sm:text-base leading-relaxed tracking-wide">
-            <p className="opacity-90">Dengan penuh kesyukuran kami</p>
-            <p className="font-bold text-base sm:text-lg text-amber-200">menjemput</p>
-            <p className="text-xs sm:text-sm font-semibold text-stone-200 uppercase tracking-wider">
-              Dato' | Datin | Tuan | Puan | Encik | Cik
-            </p>
-            <p className="opacity-90 text-xs sm:text-sm pt-1">
-              seisi keluarga hadir ke majlis perkahwinan anakanda kami
-            </p>
-          </div>
+          {/* -------------------------------------------------------------
+              FRAME DESIGN SEPERTI GAMBAR2.JPG UNTUK KOTAK NAMA PASANGAN PENGANTIN
+              (Requirement 1: buat juga untuk bahagian nama "pasangan pengantin MUHAMMAD AMAR MUAZZAM BIN MOHD SAYUNI & NUR ALIA SYUHADA BINTI MUSTAFFA")
+             ------------------------------------------------------------- */}
+          <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-amber-300/40 bg-[#360714] text-white">
+            {/* Background artwork: Scalloped burgundy embroidered lace, beads, orchids & butterflies */}
+            <img
+              src={frameBurgundyLace}
+              alt="Bingkai Renda Burgundy Pasangan Pengantin"
+              className="absolute inset-0 w-full h-full object-cover filter brightness-[0.98] contrast-105"
+            />
+            {/* Center burgundy overlay for pristine contrast */}
+            <div className="absolute inset-0 bg-[#360714]/65 backdrop-blur-[0.5px]" />
 
-          {/* KOTAK NAMA MEMPELAI PENGANTIN (Pasangan Pengantin) */}
-          <div className="relative rounded-2xl overflow-hidden border-2 border-amber-300/50 shadow-xl bg-[#2b351e]/90 text-white text-center p-6 backdrop-blur-md">
-            <div className="relative z-10 py-1">
-              <span className="text-[10px] uppercase tracking-[0.2em] text-amber-300 font-bold block mb-2">
-                Pasangan Pengantin
-              </span>
+            {/* Content inside the frame */}
+            <div className="relative z-10 px-5 py-8 sm:px-8 sm:py-10 text-center space-y-4">
+              <div className="space-y-1">
+                <span className="inline-block text-[11px] uppercase tracking-[0.25em] text-amber-300 font-bold px-3 py-0.5 bg-black/40 rounded-full border border-amber-300/30 shadow-xs">
+                  Pasangan Pengantin
+                </span>
+              </div>
 
-              {/* Nama mempelai: MUHAMMAD AMAR MUAZZAM BIN MOHD SAYUNI & NUR ALIA SYUHADA BINTI MUSTAFFA */}
-              <h2 className="name1 font-serif text-base sm:text-lg font-bold tracking-wide text-amber-100 leading-snug">
+              {/* Nama Pengantin Lelaki: MUHAMMAD AMAR MUAZZAM BIN MOHD SAYUNI */}
+              <h2 className="name1 font-serif text-base sm:text-xl font-bold tracking-wider text-white uppercase leading-snug drop-shadow-md">
                 MUHAMMAD AMAR MUAZZAM BIN MOHD SAYUNI
               </h2>
 
-              <div className="my-2.5 flex items-center justify-center gap-3">
-                <div className="h-[1px] w-12 bg-amber-400/60" />
-                <span className="font-serif italic text-2xl text-amber-300 font-bold">&</span>
-                <div className="h-[1px] w-12 bg-amber-400/60" />
+              {/* Decorative separator */}
+              <div className="my-2 flex items-center justify-center gap-3">
+                <div className="h-[1px] w-14 bg-gradient-to-r from-transparent via-amber-300/80 to-transparent" />
+                <span className="font-script text-3xl sm:text-4xl text-amber-300 font-bold drop-shadow-sm leading-none">&</span>
+                <div className="h-[1px] w-14 bg-gradient-to-r from-transparent via-amber-300/80 to-transparent" />
               </div>
 
-              <h2 className="name2 font-serif text-base sm:text-lg font-bold tracking-wide text-amber-100 leading-snug">
+              {/* Nama Pengantin Perempuan: NUR ALIA SYUHADA BINTI MUSTAFFA */}
+              <h2 className="name2 font-serif text-base sm:text-xl font-bold tracking-wider text-white uppercase leading-snug drop-shadow-md">
                 NUR ALIA SYUHADA BINTI MUSTAFFA
               </h2>
+
+              <p className="text-[11px] text-amber-200/90 font-serif italic pt-1 tracking-wide">
+                Moga Mahabbah Berkekalan Hingga Ke Syurga
+              </p>
             </div>
           </div>
 
@@ -194,7 +245,6 @@ export const BrideGroomSection: React.FC<BrideGroomSectionProps> = ({ themeStyle
 
       {/* -------------------------------------------------------------
           3. FULL BLEED ARTWORK: Pengantin Berjalan di Taman Bunga Burgundy
-             (Requirement 7: Semoga ikatan cinta dan kasih sayang ini dikurniakan sakinah, mawaddah, rahmah dan kekal hingga ke syurga)
          ------------------------------------------------------------- */}
       <div className="relative w-full max-w-md mx-auto my-6 px-4">
         <div className="relative rounded-3xl overflow-hidden border-2 border-amber-300/60 shadow-2xl group">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Play, Pause, MapPin, Mail } from 'lucide-react';
+import { Phone, Play, Pause, MapPin, Mail, Square } from 'lucide-react';
 
 interface StickyBottomBarProps {
   isPlaying: boolean;
@@ -30,15 +30,15 @@ export const StickyBottomBar: React.FC<StickyBottomBarProps> = ({
           </span>
         </button>
 
-        {/* 2. Lagu (Play / Pause Music) */}
+        {/* 2. Lagu / Stop (Audio Player Control) */}
         <button
           onClick={onToggleMusic}
           className="flex flex-col items-center justify-center p-1 text-stone-200 hover:text-white transition-colors cursor-pointer group"
-          aria-label={isPlaying ? 'Jeda Muzik' : 'Mainkan Muzik'}
-          title="Lagu Latar"
+          aria-label={isPlaying ? 'Hentikan Muzik (Stop)' : 'Mainkan Lagu'}
+          title={isPlaying ? 'Stop Muzik' : 'Mainkan Lagu'}
         >
           <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-all ${
-            isPlaying ? 'bg-amber-400 text-stone-900 shadow-md ring-2 ring-white/50' : 'group-hover:bg-white/10'
+            isPlaying ? 'bg-amber-400 text-stone-900 shadow-md ring-2 ring-white/50 scale-105' : 'group-hover:bg-white/10'
           }`}>
             {isPlaying ? (
               <Pause className="w-5 h-5 fill-current" />
@@ -46,8 +46,8 @@ export const StickyBottomBar: React.FC<StickyBottomBarProps> = ({
               <Play className="w-5 h-5 stroke-[1.6] ml-0.5" />
             )}
           </div>
-          <span className="text-[9px] tracking-wider uppercase font-medium mt-0.5 opacity-80 group-hover:opacity-100">
-            {isPlaying ? 'Lagu ON' : 'Lagu'}
+          <span className={`text-[9px] tracking-wider uppercase font-bold mt-0.5 ${isPlaying ? 'text-amber-200' : 'opacity-80 group-hover:opacity-100'}`}>
+            {isPlaying ? 'Stop' : 'Lagu'}
           </span>
         </button>
 

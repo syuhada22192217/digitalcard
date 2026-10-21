@@ -9,9 +9,9 @@ import { GuestbookSection } from './components/GuestbookSection';
 import { ContactSection } from './components/ContactSection';
 import { StickyBottomBar } from './components/StickyBottomBar';
 import { ButterfliesOverlay } from './components/ButterfliesOverlay';
-import { YouTubeAudioPlayer } from './components/YouTubeAudioPlayer';
 import { Wish } from './data/weddingData';
 import { weddingAudio } from './utils/audio';
+import { preloadAllWeddingAssets } from './utils/preloadAssets';
 import { RotateCcw, Heart, Sparkles, Volume2, VolumeX } from 'lucide-react';
 
 export default function App() {
@@ -22,20 +22,25 @@ export default function App() {
   const [wishes, setWishes] = useState<Wish[]>([]);
   const [isLoadingLiveData, setIsLoadingLiveData] = useState<boolean>(true);
 
-  // Sync music state with audio manager
+  // Requirement 3: Preload all images and assets immediately so they are available right away
   useEffect(() => {
-    weddingAudio.setListener((playing) => {
-      setIsPlayingMusic(playing);
-    });
+    preloadAllWeddingAssets();
   }, []);
 
-  // 2. LOAD LIVE DATA (ON PAGE LOAD) via /api/wedding-data proxy or direct GOOGLE_SCRIPT_URL
+  // Sync music state with audio manager
+  useEffect(() => {
+    const unsubscribe = weddingAudio.setListener((playing) => {
+      setIsPlayingMusic(playing);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Load live RSVP data via proxy or direct Apps Script
   const fetchLiveWeddingData = useCallback(async () => {
     try {
       setIsLoadingLiveData(true);
       let data: any = null;
 
-      // Try proxy first (completely eliminates browser/iframe CORS restrictions and redirects)
       try {
         const proxyRes = await fetch('/api/wedding-data');
         if (proxyRes.ok) {
@@ -45,7 +50,6 @@ export default function App() {
         console.warn("Proxy /api/wedding-data unreachable, trying direct URL:", proxyError);
       }
 
-      // If proxy not available or failed, fallback to direct GOOGLE_SCRIPT_URL
       if (!data) {
         const res = await fetch(GOOGLE_SCRIPT_URL);
         if (res.ok) {
@@ -54,7 +58,6 @@ export default function App() {
       }
 
       if (data) {
-        // Parse the JSON response (totalHadir, totalTidakHadir, and wishes)
         if (typeof data.totalHadir === 'number') {
           setTotalHadir(data.totalHadir);
         }
@@ -62,7 +65,6 @@ export default function App() {
           setTotalTidakHadir(data.totalTidakHadir);
         }
         if (Array.isArray(data.wishes)) {
-          // Map array of real wishes names and messages dynamically
           const parsedWishes: Wish[] = data.wishes.map((w: any, idx: number) => ({
             id: w.id || `gas-${idx}-${Date.now()}`,
             name: w.nama || w.name || w.guestName || 'Tetamu Jemputan',
@@ -82,15 +84,12 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    // 1. Muat turun data serta-merta semasa laman dibuka
     fetchLiveWeddingData();
 
-    // 2. Segerak automatik berkala setiap 20 saat untuk semua pengguna yang sedang buka laman
     const intervalId = setInterval(() => {
       fetchLiveWeddingData();
     }, 20000);
 
-    // 3. Segerak serta-merta apabila pengguna kembali ke tab browser (Chrome/Safari dll)
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
         fetchLiveWeddingData();
@@ -106,13 +105,12 @@ export default function App() {
     };
   }, [fetchLiveWeddingData]);
 
+  // Requirement 2: Play attached MP3 immediately upon opening the card
   const handleOpenCard = () => {
     setIsOpened(true);
-    // Requirement 2: Start playing background music automatically upon opening the card
-    setIsPlayingMusic(true);
     weddingAudio.start();
 
-    // Requirement 3: Buat autoscroll setelah kad dibuka, yang perlahan sahaja
+    // Gentle autoscroll after card opens
     setTimeout(() => {
       let scrollTimer: number | null = null;
       let isUserInteracting = false;
@@ -132,7 +130,6 @@ export default function App() {
         
         const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
         if (window.scrollY < maxScroll) {
-          // Slow, gentle scroll speed (approx 0.8px per frame)
           window.scrollBy({ top: 0.8, behavior: 'instant' as ScrollBehavior });
           scrollTimer = requestAnimationFrame(autoScrollStep);
         } else {
@@ -144,14 +141,9 @@ export default function App() {
     }, 1400);
   };
 
+  // Toggle music playback
   const handleToggleMusic = () => {
-    const nextState = !isPlayingMusic;
-    setIsPlayingMusic(nextState);
-    if (nextState) {
-      weddingAudio.start();
-    } else {
-      weddingAudio.stop();
-    }
+    weddingAudio.toggle();
   };
 
   const handleScrollTo = (id: string) => {
@@ -163,9 +155,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-stone-950 font-body text-stone-800 flex flex-col items-center justify-start sm:py-6 px-0 sm:px-4">
-      {/* YouTube Background Music Player (https://youtu.be/IBFWlwnrpdU) */}
-      <YouTubeAudioPlayer isPlaying={isPlayingMusic} />
-
       {/* Main Container Phone Frame / Card Canvas */}
       <main className="w-full max-w-[460px] min-h-screen sm:min-h-0 bg-stone-900 shadow-2xl sm:rounded-3xl border-0 sm:border-8 border-stone-800 overflow-hidden relative">
         {/* Floating Quick Music Control on Top Right */}
@@ -173,7 +162,7 @@ export default function App() {
           <button
             onClick={handleToggleMusic}
             className="fixed sm:absolute top-3 right-3 z-50 p-2.5 rounded-full bg-black/60 backdrop-blur-md border border-amber-300/40 text-amber-200 shadow-lg hover:scale-110 transition-transform cursor-pointer"
-            title={isPlayingMusic ? 'Jeda Muzik' : 'Mainkan Muzik'}
+            title={isPlayingMusic ? 'Berhenti / Jeda Muzik' : 'Mainkan Muzik'}
             aria-label="Kawalan Muzik"
           >
             {isPlayingMusic ? (
@@ -198,7 +187,6 @@ export default function App() {
               <button
                 onClick={() => {
                   setIsOpened(false);
-                  setIsPlayingMusic(false);
                   weddingAudio.stop();
                 }}
                 className="flex items-center gap-1 hover:text-white transition-colors cursor-pointer"
@@ -212,7 +200,7 @@ export default function App() {
             {/* Floating Animated Butterflies Overlay */}
             <ButterfliesOverlay />
 
-            {/* 1. Bride & Groom Section */}
+            {/* 1. Bride & Groom Section (With frame design from gambar2.jpg and white Amar & Syuhada text) */}
             <BrideGroomSection themeStyle="emerald" />
 
             {/* 2. Countdown Timer Section (With tetingkap.jpg background) */}
@@ -263,7 +251,6 @@ export default function App() {
                 بَارَكَ اللَّهُ لَكَ وَبَارَكَ عَلَيْكَ وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ
               </p>
 
-              {/* Requirement 17: hashtag di bahagian paling akhir */}
               <div className="pt-2">
                 <span className="inline-block px-4 py-1.5 rounded-full bg-amber-400/20 border border-amber-300/40 text-amber-200 text-sm font-bold tracking-wider">
                   #AMARriedtoSYU

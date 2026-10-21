@@ -25,6 +25,19 @@ function attendanceApiPlugin(): Plugin {
       }
 
       server.middlewares.use(async (req, res, next) => {
+        // Serve audio directly with proper audio/mpeg MIME type
+        if (req.url?.startsWith('/audio/wedding_song.mp3')) {
+          const audioPath = path.resolve(__dirname, 'public/audio/wedding_song.mp3');
+          if (fs.existsSync(audioPath)) {
+            res.setHeader('Content-Type', 'audio/mpeg');
+            res.setHeader('Accept-Ranges', 'bytes');
+            const stat = fs.statSync(audioPath);
+            res.setHeader('Content-Length', stat.size);
+            fs.createReadStream(audioPath).pipe(res);
+            return;
+          }
+        }
+
         // Proxy for Google Apps Script to eliminate browser CORS / network restrictions
         if (req.url?.startsWith('/api/wedding-data') && req.method === 'GET') {
           res.setHeader('Content-Type', 'application/json');
@@ -92,6 +105,10 @@ export default defineConfig(() => {
       alias: {
         '@': path.resolve(__dirname, '.'),
       },
+      dedupe: ['react', 'react-dom'],
+    },
+    optimizeDeps: {
+      include: ['react', 'react-dom', 'react-dom/client', 'lucide-react'],
     },
     server: {
       hmr: process.env.DISABLE_HMR !== 'true',
