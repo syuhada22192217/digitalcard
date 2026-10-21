@@ -41,7 +41,7 @@ export const WEDDING_DATA = {
     title: "Walimatul Urus",
     hashtag: "#AMARriedtoSYU",
     dateFormatted: "Jumaat, 1 Januari 2027",
-    dateHijri: "22 Rejab 1448H",
+    dateHijri: "23 Rejab 1448H",
     targetDateISO: "2027-01-01T20:00:00+08:00",
     timeFormatted: "8:00 Malam - 11:00 Malam",
     startTime: "8:00 PM",
