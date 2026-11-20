@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Sparkles } from 'lucide-react';
-import fittedDoorLeft from '../assets/images/fitted_door_left.jpg';
-import fittedDoorRight from '../assets/images/fitted_door_right.jpg';
+import fittedDoorLeft from '../assets/images/barucover_door_left.png';
+import fittedDoorRight from '../assets/images/barucover_door_right.png';
 import anthuriumPetalImg from '../assets/images/anthurium_petal_1792061936557.jpg';
 
 interface EnvelopeCoverProps {

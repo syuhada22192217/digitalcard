@@ -1,6 +1,6 @@
 import React from 'react';
 import { WEDDING_DATA } from '../data/weddingData';
-import coupleWalkingGarden from '../assets/images/pengantin_burgundy_grey_1791902834200.jpg';
+import coupleWalkingGarden from '../assets/images/pengantinasal.jpg';
 import ringExchangeMirrorBg from '../assets/images/newcermin.jpg';
 import frameTallBurgundy from '../assets/images/frame_tall_burgundy_1792597275647.jpg';
 import frameBurgundyLace from '../assets/images/frame_burgundy_lace_1792597245969.jpg';
@@ -210,33 +210,6 @@ export const BrideGroomSection: React.FC<BrideGroomSectionProps> = ({ themeStyle
 
               <p className="text-[11px] text-amber-200/90 font-serif italic pt-1 tracking-wide">
                 Moga Mahabbah Berkekalan Hingga Ke Syurga
-              </p>
-            </div>
-          </div>
-
-          {/* Venue & Date Overview */}
-          <div className="pt-2 space-y-4">
-            <div>
-              <p className="sectionTitle text-xs uppercase tracking-[0.25em] font-bold text-amber-300">
-                TEMPAT
-              </p>
-              <p className="font-serif text-base sm:text-lg font-bold text-white mt-1">
-                {WEDDING_DATA.event.venueName.toUpperCase()}
-              </p>
-              <p className="text-xs text-stone-300 max-w-xs mx-auto mt-0.5">
-                {WEDDING_DATA.event.venueAddress}
-              </p>
-            </div>
-
-            <div className="pt-2">
-              <p className="sectionTitle text-xs uppercase tracking-[0.25em] font-bold text-amber-300">
-                TARIKH & MASA
-              </p>
-              <p className="font-serif text-base font-bold text-white mt-1">
-                {WEDDING_DATA.event.dateFormatted}
-              </p>
-              <p className="text-xs text-stone-300">
-                {WEDDING_DATA.event.timeFormatted} ({WEDDING_DATA.event.dateHijri})
               </p>
             </div>
           </div>

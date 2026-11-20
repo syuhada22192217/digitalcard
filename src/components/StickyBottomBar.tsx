@@ -66,18 +66,18 @@ export const StickyBottomBar: React.FC<StickyBottomBarProps> = ({
           </span>
         </button>
 
-        {/* 4. Kehadiran */}
+        {/* 4. RSVP */}
         <button
           onClick={() => onNavigate('kehadiran')}
           className="flex flex-col items-center justify-center p-1 text-amber-200 hover:text-white transition-colors cursor-pointer group"
-          aria-label="Pengesahan Kehadiran"
-          title="Kehadiran"
+          aria-label="RSVP"
+          title="RSVP"
         >
           <div className="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center shadow-xs group-hover:bg-white/25 transition-colors">
             <Mail className="w-5 h-5 stroke-[1.7]" />
           </div>
           <span className="text-[9px] tracking-wider uppercase font-bold text-amber-300 mt-0.5">
-            Kehadiran
+            RSVP
           </span>
         </button>
       </div>

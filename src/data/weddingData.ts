@@ -27,7 +27,7 @@ export const WEDDING_DATA = {
     fullName: "Muhammad Amar Muazzam bin Mohd Sayuni",
     shortName: "Amar",
     father: "Mohd Sayuni bin Endut",
-    mother: "Faridah binti Ahmad",
+    mother: "Faridah binti Ahmad @ Mohd Noor",
     phone: "60179102340",
   },
   bride: {

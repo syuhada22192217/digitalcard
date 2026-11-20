@@ -49,9 +49,6 @@ export const MapLocationSection: React.FC = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent flex items-end p-4 text-left">
             <div>
-              <span className="text-[10px] uppercase font-bold tracking-wider text-amber-300">
-                Pusat Komuniti & Dewan Majlis
-              </span>
               <p className="text-white text-sm font-semibold leading-snug">
                 Dewan Masjid Seberang Takir
               </p>

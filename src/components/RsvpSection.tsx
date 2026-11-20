@@ -120,7 +120,7 @@ export const RsvpSection: React.FC<RsvpSectionProps> = ({
             Pengesahan Kehadiran
           </h3>
           <h2 className="font-serif-luxury text-xl sm:text-2xl font-bold text-white">
-            Rekod Kehadiran Tetamu
+            RSVP
           </h2>
         </div>
 
