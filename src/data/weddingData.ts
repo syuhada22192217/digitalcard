@@ -42,10 +42,10 @@ export const WEDDING_DATA = {
     hashtag: "#AMARriedtoSYU",
     dateFormatted: "Jumaat, 1 Januari 2027",
     dateHijri: "23 Rejab 1448H",
-    targetDateISO: "2027-01-01T20:00:00+08:00",
-    timeFormatted: "8:00 Malam - 11:00 Malam",
-    startTime: "8:00 PM",
-    endTime: "11:00 PM",
+    targetDateISO: "2027-01-01T11:00:00+08:00",
+    timeFormatted: "11:00 Pagi - 4:00 Petang",
+    startTime: "11:00 AM",
+    endTime: "4:00 PM",
     venueName: "Dewan Masjid Seberang Takir",
     venueAddress: "Jalan Fikir, 21300 Kampung Seberang Takir, Kuala Terengganu, Terengganu Darul Iman",
     googleMapsUrl: "https://maps.app.goo.gl/Ez7RiFrEjqVQ7V789",
@@ -54,8 +54,8 @@ export const WEDDING_DATA = {
     longitude: 103.135914,
   },
   itinerary: [
-    { time: "8:00 PM", title: "Ketibaan Para Tetamu", desc: "" },
-    { time: "11:00 PM", title: "Majlis Bersurai", desc: "" }
+    { time: "11:00 AM", title: "Ketibaan Para Tetamu", desc: "" },
+    { time: "4:00 PM", title: "Majlis Bersurai", desc: "" }
   ],
   dressCode: {
     brideSide: "Soft Pink / Bebas",

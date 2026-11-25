@@ -50,7 +50,7 @@ export const EventDetailsSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Atur Cara Majlis (8:00 PM & 11:00 PM sahaja) */}
+        {/* Atur Cara Majlis (11:00 AM & 4:00 PM) */}
         <div className="p-5 rounded-2xl border border-[#8B0000]/20 bg-white/90 backdrop-blur-md shadow-sm">
           <div className="text-center mb-6">
             <h3 className="sectionTitle text-sm uppercase tracking-[0.2em] text-[#8B0000] font-bold">

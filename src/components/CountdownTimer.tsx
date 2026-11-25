@@ -12,7 +12,7 @@ export const CountdownTimer: React.FC = () => {
   });
 
   useEffect(() => {
-    const target = new Date("2027-01-01T20:00:00+08:00").getTime();
+    const target = new Date(WEDDING_DATA.event.targetDateISO).getTime();
 
     const updateTimer = () => {
       const now = new Date().getTime();
@@ -46,8 +46,8 @@ export const CountdownTimer: React.FC = () => {
       'SUMMARY:Walimatul Urus Muhammad Amar & Nur Alia Syuhada',
       'DESCRIPTION:Majlis Perkahwinan Muhammad Amar Muazzam & Nur Alia Syuhada. Lokasi: Dewan Masjid Seberang Takir, Terengganu.',
       'LOCATION:Dewan Masjid Seberang Takir, Jalan Fikir, 21300 Kampung Seberang Takir, Terengganu',
-      'DTSTART:20270101T120000Z', // 8:00 PM MYT = 12:00 PM UTC
-      'DTEND:20270101T150000Z',   // 11:00 PM MYT = 3:00 PM UTC
+      'DTSTART:20270101T030000Z', // 11:00 AM MYT = 03:00 AM UTC
+      'DTEND:20270101T080000Z',   // 4:00 PM MYT = 08:00 AM UTC
       'STATUS:CONFIRMED',
       'END:VEVENT',
       'END:VCALENDAR'
@@ -65,7 +65,7 @@ export const CountdownTimer: React.FC = () => {
 
   const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
     'Walimatul Urus Amar & Syuhada'
-  )}&dates=20270101T120000Z/20270101T150000Z&details=${encodeURIComponent(
+  )}&dates=20270101T030000Z/20270101T080000Z&details=${encodeURIComponent(
     'Majlis Walimatul Urus Muhammad Amar Muazzam & Nur Alia Syuhada bertempat di Dewan Masjid Seberang Takir, Terengganu.'
   )}&location=${encodeURIComponent(
     'Dewan Masjid Seberang Takir, Jalan Fikir, 21300 Kampung Seberang Takir, Terengganu'
